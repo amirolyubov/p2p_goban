@@ -20,18 +20,15 @@ const config = {
     rules: [
       {
         test: /\.js$/,
-        include: /front/,
+        include: /src/,
         exclude: /node_modules/,
         use: {
-          loader: "babel-loader",
-          options: {
-            presets: ['env', 'react'],
-          }
+          loader: "babel-loader"
         }
       },
       {
         test: /\.scss$/,
-        include: /front/,
+        include: /src/,
         use: [{
             loader: "style-loader"
         }, {

@@ -1,0 +1,15 @@
+$color_bg: #f6f6f6;
+$color_deck: #FFE1C6;
+$color_deck_border1: #aab1a6;
+$color_deck_border2: #ffffff;
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html, body, #app, .router-wrapper {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
