@@ -10,9 +10,10 @@ class Game extends Component {
     }
   }
   render () {
+    const { game: { matrix } } = this.props
     return (
       <div className='game'>
-        <Deck />
+        <Deck matrix={ matrix }/>
       </div>
     )
   }

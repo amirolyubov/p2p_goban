@@ -18,5 +18,18 @@
                 0px 0px 3px $color_deck_border2;
     box-sizing: border-box;
     padding: 20px;
+
+    svg {
+      g {
+        * {
+          fill: #a54;
+          stroke: #aaa;
+        }
+        circle.rock {
+          fill: #000;
+          stroke: transparent;
+        }
+      }
+    }
   }
 }

@@ -1,7 +1,7 @@
 import { gameTypes } from '../actionTypes'
 
 const initialState = {
-  matrix: new Array(15).fill(new Array(15).fill(null))
+  matrix: new Array(15).fill(null).map(() => new Array(15).fill(1))
 }
 
 const game = (state = initialState, action) => {
