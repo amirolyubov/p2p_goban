@@ -21,13 +21,29 @@
 
     svg {
       g {
+        circle.click-helper {
+          stroke: transparent;
+          fill: transparent;
+          transition: 0.2s;
+          &:not(.__with-rock) {
+            cursor: move;
+            &:hover {
+              fill: rgba(0,0,0,0.2);
+            }
+          }
+        }
+        circle.rock {
+          stroke: transparent;
+          &.black {
+            fill: #000;
+          }
+          &.white {
+            fill: #fff;
+          }
+        }
         * {
           fill: #a54;
           stroke: #aaa;
-        }
-        circle.rock {
-          fill: #000;
-          stroke: transparent;
         }
       }
     }

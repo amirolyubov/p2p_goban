@@ -5,15 +5,15 @@ import '../styles/game.scss'
 class Game extends Component {
   constructor (props) {
     super(props)
-    this.state = {
-      isWhite: true
-    }
   }
   render () {
-    const { game: { matrix } } = this.props
+    const { game: { matrix, role }, actions: { put } } = this.props
     return (
       <div className='game'>
-        <Deck matrix={ matrix }/>
+        <Deck
+          putAction={ put }
+          matrix={ matrix }
+          putAction={ put }/>
       </div>
     )
   }

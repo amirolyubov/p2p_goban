@@ -12,8 +12,14 @@ class Deck extends Component {
   constructor (props) {
     super(props)
   }
+
+  handleCellClick = (cell, x, y) => {
+    const { putAction } = this.props
+    cell === null && putAction({x, y})
+  }
+
   renderRock (cell, x, y) {
-    return <circle className='rock' cx={x} cy={y} r={`${3}%`}/>
+    return <circle className={`rock ${cell !== null && cell}`} cx={x} cy={y} r={`${3}%`}/>
   }
   renderSvg () {
     const { matrix } = this.props
@@ -41,6 +47,13 @@ class Deck extends Component {
           {
             cell !== null && this.renderRock(cell, `${3.33 + 6.66 * secondKey}%`, `${3.33 + 6.66 * keyProp}%`)
           }
+          <circle
+            onClick={() => this.handleCellClick(cell, secondKey, keyProp)}
+            className={`click-helper${cell !== null ? ' __with-rock' : ''}`}
+            cx={`${3.33 + 6.66 * secondKey}%`}
+            cy={`${3.33 + 6.66 * keyProp}%`}
+            r='3.3%'
+            />
         </g>
       )
     )
