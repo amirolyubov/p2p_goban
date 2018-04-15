@@ -1,12 +1,11 @@
 import { gameTypes } from '../actionTypes'
 import { recalculateMatrix } from '../utils'
 
-export const put = ({x, y}) => (dispatch, getState) => {
-  let gameState = {
+export const put = step => (dispatch, getState) => {
+  const gameState = {
     ...getState().game
   }
-  gameState.matrix[y][x] = gameState.role
-  const recalculatedMatrix = recalculateMatrix(gameState.matrix, gameState.role)
+  const recalculatedMatrix = recalculateMatrix(gameState.matrix, step, gameState.role)
 
   dispatch((() => ({
     type: gameTypes.PUT,
