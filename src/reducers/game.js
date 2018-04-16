@@ -1,7 +1,11 @@
 import { gameTypes } from '../actionTypes'
 
 const mockRender = ({x, y}) => {
-  if (x > 3 && x < 9 && y === 5) return 'white'
+  if (x > 3 && x < 10 && (y === 6 || y === 8)) return 'white'
+  if (x > 3 && x < 10 && (y === 6 || y === 11)) return 'white'
+  // if (x > 3 && x < 9 && (y === 5)) return 'white'
+  if ((x === 5 || x === 7) && (y > 3 && y < 13)) return 'white'
+  if (y === 8 && (x > 2 && x < 10)) return 'white'
   return null
 }
 

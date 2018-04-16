@@ -1,4 +1,4 @@
-Object.defineProperty(Object.prototype, 'deepEq', {
+Object.defineProperty(Object.prototype, 'eq', {
   enumerable: false,
   value: function(y) {
     if (this === y) return true
@@ -9,7 +9,7 @@ Object.defineProperty(Object.prototype, 'deepEq', {
       if (!y.hasOwnProperty(p)) return false
       if (this[p] === y[p]) continue
       if (typeof(this[p]) !== "object") return false
-      if (!Object.deepEq(this[p], y[p])) return false
+      if (!Object.eq(this[p], y[p])) return false
     }
     for (p in y) {
       if (y.hasOwnProperty(p) && !this.hasOwnProperty(p)) return false
@@ -17,19 +17,6 @@ Object.defineProperty(Object.prototype, 'deepEq', {
     return true
   }
 })
-
-// Array.prototype.getUnique = function(arr) {
-//   const _temp = arr
-//   arr.filter((newEl, key) => {
-//     for (let oldEl in this) {
-//       if (this[oldEl].deepEq(newEl)) {
-//         _temp.splice(key, 1)
-//         return true
-//       }
-//     }
-//   })
-//   return _temp
-// }
 
 export const recalculateMatrix = (matrix, step, role) => {
   const _switchRole = role => role === 'white' ? 'black' : 'white'
@@ -50,12 +37,12 @@ export const recalculateMatrix = (matrix, step, role) => {
   }
   const _findGroups = () => {
     let _groups = {},
-        _getGroupId = ((count = 0) => () => `group_${count++}`)(),
+        _getGroupId = ((count = 0) => () => count++)(),
         _findInGroups = (cell, _g) => {
           let isExist = false, _groupId
           for (let g in _g) {
             _g[g].map(_cell => {
-              if (cell.deepEq(_cell)) {
+              if (cell.eq(_cell)) {
                 isExist = true
                 _groupId = g
               }
@@ -63,6 +50,13 @@ export const recalculateMatrix = (matrix, step, role) => {
           }
           return isExist && _groupId || isExist
         }
+        // _normaliseGroups = _g => {
+        //   let _temp_g = {}
+        //   for (let g in _g) {
+        //     // console.log(_g[g])
+        //   }
+        //   return _temp_g
+        // }
     matrix.map((row, firstKey) => {
       row.map((cell, secondKey) => {
         if (cell === _switchRole(role)) {
@@ -75,7 +69,21 @@ export const recalculateMatrix = (matrix, step, role) => {
               _groups[_id].push(_cell)
             } else {
               _neighbours.map(_n => {
-                if (_findInGroups(_n, _groups)) _groups[_findInGroups(_n, _groups)].push(_cell)
+                const _groupId = _findInGroups(_n, _groups)
+                if (_groupId) {
+                  if (_neighbours.length === 1) {
+                    _groups[_groupId].every(_first => !_first.eq(_cell)) && _groups[_groupId].push(_cell)
+                  } else {
+                    const __groups = _neighbours.map(__n => _findInGroups(__n, _groups))
+                    const _newGroupId = Math.max.apply(null, __groups)
+                    _groups[_newGroupId] = _groups[_newGroupId]
+                          .concat(_groups[_groupId])
+                          .map(elem => JSON.stringify(elem))
+                          .filter((elem, key, self) => self.indexOf(elem) === key)
+                          .map(elem => JSON.parse(elem))
+                    _groups[_newGroupId].every(_first => !_first.eq(_cell)) && _groups[_newGroupId].push(_cell)
+                  }
+                }
               })
             }
           }
@@ -83,6 +91,8 @@ export const recalculateMatrix = (matrix, step, role) => {
       })
     })
     console.log(_groups);
+    // const _normalisedGroups = _normaliseGroups(_groups)
+    // console.log(_normalisedGroups);
   }
 
   const neighbours = _findNeighbours(step)
