@@ -24,11 +24,16 @@
         circle.click-helper {
           stroke: transparent;
           fill: transparent;
-          transition: 0.2s;
+          transition: 0.3s;
           &:not(.__with-rock) {
             cursor: move;
             &:hover {
-              fill: rgba(0,0,0,0.2);
+              &.black {
+                fill: rgba(0,0,0,0.2);
+              }
+              &.white {
+                fill: rgba(255,255,255,0.4);
+              }
             }
           }
         }

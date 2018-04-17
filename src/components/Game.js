@@ -11,8 +11,8 @@ class Game extends Component {
     return (
       <div className='game'>
         <Deck
-          putAction={ put }
           matrix={ matrix }
+          role={ role }
           putAction={ put }/>
       </div>
     )

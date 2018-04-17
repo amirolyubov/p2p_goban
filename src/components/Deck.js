@@ -22,7 +22,7 @@ class Deck extends Component {
     return <circle className={`rock ${cell !== null && cell}`} cx={x} cy={y} r={`${3}%`}/>
   }
   renderSvg () {
-    const { matrix } = this.props
+    const { matrix, role } = this.props
     const Row = ({row, keyProp}) => row.map((cell, secondKey) => (
         <g key={secondKey}>
           <line
@@ -49,7 +49,7 @@ class Deck extends Component {
           }
           <circle
             onClick={() => this.handleCellClick(cell, secondKey, keyProp)}
-            className={`click-helper${cell !== null ? ' __with-rock' : ''}`}
+            className={`click-helper${cell !== null ? ' __with-rock' : ''} ${role}`}
             cx={`${3.33 + 6.66 * secondKey}%`}
             cy={`${3.33 + 6.66 * keyProp}%`}
             r='3.3%'

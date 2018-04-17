@@ -102,9 +102,10 @@ export const recalculateMatrix = (matrix, step, role) => {
   const neighbours = _findNeighbours(step)
 
   if (!neighbours) {
+    console.log(role);
     return ((_m, _s, _r) => _m[_s.y][_s.x] = _r)(matrix, step, role)
   } else {
     const neighbourGroups = _findAttackedGroups(_findGroups(), neighbours)
-    console.log(neighbourGroups);
+
   }
 }
