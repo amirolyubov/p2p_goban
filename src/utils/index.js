@@ -35,28 +35,21 @@ export const recalculateMatrix = (matrix, step, role) => {
     }
     return _neighbours.length === 0 ? false : _neighbours
   }
+  const _findInGroups = (cell, _g) => {
+    let isExist = false, _groupId
+    for (let g in _g) {
+      _g[g].map(_cell => {
+        if (cell.eq(_cell)) {
+          isExist = true
+          _groupId = g
+        }
+      })
+    }
+    return isExist && _groupId || isExist
+  }
   const _findGroups = () => {
     let _groups = {},
-        _getGroupId = ((count = 0) => () => count++)(),
-        _findInGroups = (cell, _g) => {
-          let isExist = false, _groupId
-          for (let g in _g) {
-            _g[g].map(_cell => {
-              if (cell.eq(_cell)) {
-                isExist = true
-                _groupId = g
-              }
-            })
-          }
-          return isExist && _groupId || isExist
-        }
-        // _normaliseGroups = _g => {
-        //   let _temp_g = {}
-        //   for (let g in _g) {
-        //     // console.log(_g[g])
-        //   }
-        //   return _temp_g
-        // }
+        _getGroupId = ((count = 0) => () => count++)()
     matrix.map((row, firstKey) => {
       row.map((cell, secondKey) => {
         if (cell === _switchRole(role)) {
@@ -82,6 +75,7 @@ export const recalculateMatrix = (matrix, step, role) => {
                           .filter((elem, key, self) => self.indexOf(elem) === key)
                           .map(elem => JSON.parse(elem))
                     _groups[_newGroupId].every(_first => !_first.eq(_cell)) && _groups[_newGroupId].push(_cell)
+                    _newGroupId != _groupId && delete _groups[_groupId]
                   }
                 }
               })
@@ -90,9 +84,19 @@ export const recalculateMatrix = (matrix, step, role) => {
         }
       })
     })
-    console.log(_groups);
-    // const _normalisedGroups = _normaliseGroups(_groups)
-    // console.log(_normalisedGroups);
+    return _groups
+  }
+  const _findAttackedGroups = (_groups, _neighbours) => {
+    let _neighboursIds = []
+    return _neighbours.map(_n => {
+      const _id = _findInGroups(_n, _groups)
+      if (_neighboursIds.length === 0) {
+        _neighboursIds.push(_id)
+        return _groups[_id]
+      }
+      if (!_neighboursIds.includes(_id)) return _groups[_id]
+      _neighboursIds.push(_id)
+    }).filter(_n => _n)
   }
 
   const neighbours = _findNeighbours(step)
@@ -100,6 +104,7 @@ export const recalculateMatrix = (matrix, step, role) => {
   if (!neighbours) {
     return ((_m, _s, _r) => _m[_s.y][_s.x] = _r)(matrix, step, role)
   } else {
-    const groups = _findGroups()
+    const neighbourGroups = _findAttackedGroups(_findGroups(), neighbours)
+    console.log(neighbourGroups);
   }
 }
