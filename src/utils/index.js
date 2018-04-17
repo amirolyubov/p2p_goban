@@ -141,7 +141,7 @@ export const recalculateMatrix = (matrix, step, role) => {
   } else {
     const deadGroups = _checkGroupsForDeath(_getBreatheOfGroups(_findAttackedGroups(_findGroups(), neighbours)))
     if (deadGroups.length > 0) _removeGroups(deadGroups)
-    if (neighbours.length === 4 && deadGroups.length === 0) return matrix
+    if (neighbours.length === 4 && deadGroups.length === 0) return matrix // TODO: есть недоработка с разрешением сохранить жизнь своей группе, надо найти
     return ((_m, _s, _r) => _m[_s.y][_s.x] = _r)(matrix, step, role)
   }
 }
