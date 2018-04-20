@@ -12,8 +12,8 @@ const mockRender = ({x, y}) => {
 
 const initialState = {
   // matrix: new Array(15).fill(null).map((i, key) => new Array(15).fill(null).map((y, senondKey) => mockRender({y: key, x: senondKey}))),
-  // matrix: new Array(15).fill(null).map(() => new Array(15).fill(null).map(y => Math.random() < 0.2 ? 'white' : Math.random() < 0.2 ? 'black': null)),
-  matrix: new Array(15).fill(null).map(() => new Array(15).fill(null).map(y => null)),
+  matrix: new Array(15).fill(null).map(() => new Array(15).fill(null).map(y => Math.random() < 0.2 ? 'white' : Math.random() < 0.2 ? 'black': null)),
+  // matrix: new Array(15).fill(null).map(() => new Array(15).fill(null).map(y => null)),
   role: 'white'
 }
 
